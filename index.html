@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ...existing content... -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mobile Speech to Text</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <script type="importmap">
+  {
+    "imports": {
+      "mitt": "https://esm.sh/mitt@3.0.1"
+    }
+  }
+  </script>
+</head>
+<body>
+  <!-- ...existing content... -->
+  <header class="app-header">
+    <h1>Speech to Text</h1>
+    <div class="status">
+      <span id="statusDot" class="dot idle"></span>
+      <span id="statusText">Idle</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="controls">
+      <label class="field">
+        <span>Language</span>
+        <select id="langSelect" aria-label="Recognition language">
+          <option value="en-US" selected>English (US)</option>
+          <option value="en-GB">English (UK)</option>
+          <option value="es-ES">Español (ES)</option>
+          <option value="fr-FR">Français (FR)</option>
+          <option value="de-DE">Deutsch (DE)</option>
+          <option value="it-IT">Italiano (IT)</option>
+          <option value="pt-BR">Português (BR)</option>
+          <option value="hi-IN">हिन्दी (IN)</option>
+          <option value="ja-JP">日本語 (JP)</option>
+          <option value="ko-KR">한국어 (KR)</option>
+          <option value="zh-CN">简体中文 (CN)</option>
+        </select>
+      </label>
+
+      <button id="toggleBtn" class="primary">Start Listening</button>
+    </section>
+
+    <section class="readout">
+      <div class="pane">
+        <label for="finalText">Final Transcript</label>
+        <textarea id="finalText" rows="10" placeholder="Final transcript will appear here..." readonly></textarea>
+        <div class="actions">
+          <button id="copyBtn">Copy</button>
+          <button id="clearBtn">Clear</button>
+          <button id="saveBtn">Save .txt</button>
+          <span id="wordCount" aria-live="polite">0 words</span>
+        </div>
+      </div>
+
+      <div class="pane">
+        <label for="interimText">Interim (live)</label>
+        <textarea id="interimText" rows="4" placeholder="Live speech appears here while processing..." readonly></textarea>
+      </div>
+    </section>
+
+    <section id="supportNotice" class="notice hidden" role="alert">
+      This browser doesn’t support on-device speech recognition. Try the latest Chrome or Safari on mobile or desktop.
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <small>Tip: Hold the phone close and speak clearly. This runs locally and uses your browser’s speech engine.</small>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+  <!-- ...existing content... -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
+
