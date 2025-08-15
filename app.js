@@ -50,8 +50,8 @@ els.toggle.addEventListener("click", async () => {
   if (capture.running) {
     capture.stop();
   } else {
-    // Prompt mic permission early on some browsers for better UX
-    try { await navigator.mediaDevices?.getUserMedia?.({ audio: true }); } catch {}
+    // Prompt mic permission without awaiting, so start() remains in the user gesture
+    navigator.mediaDevices?.getUserMedia?.({ audio: true }).catch(() => {});
     capture.setLanguage(els.lang.value);
     capture.start();
   }
@@ -99,4 +99,3 @@ document.addEventListener("visibilitychange", () => {
     }
   }
 });
-
