@@ -50,7 +50,7 @@ export class SpeechCapture {
     const r = new Rec();
     r.lang = this._lang;
     r.interimResults = true;
-    r.continuous = true; // Safari may ignore; we auto-restart on end.
+    r.continuous = false; // more reliable across mobile (we auto-restart on end)
     r.maxAlternatives = 1;
 
     r.onstart = () => this.emitter.emit("status", "listening");
@@ -76,12 +76,12 @@ export class SpeechCapture {
     };
 
     r.onerror = (e) => {
-      this.emitter.emit("error", e.error || "unknown");
-      // auto-restart on transient network/no-speech/audio-capture errors
-      if (this._restartOnEnd) {
-        setTimeout(() => {
-          try { r.stop(); } catch {}
-        }, 50);
+      const code = e.error || "unknown";
+      this.emitter.emit("error", code);
+      // Restart on transient errors or auto-end scenarios
+      if (this._restartOnEnd && (code === "no-speech" || code === "audio-capture" || code === "network" || code === "aborted" || code === "not-allowed" || code === "service-not-allowed")) {
+        try { r.stop(); } catch {}
+        setTimeout(() => { if (this._restartOnEnd) this._spinUp(); }, 200);
       }
     };
 
@@ -102,7 +102,6 @@ export class SpeechCapture {
     };
 
     this._recognition = r;
-    try { r.start(); } catch {}
+    try { r.start(); } catch (err) { this.emitter.emit("error", err?.message || "start-failed"); }
   }
 }
-
